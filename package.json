@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Santi-Rubiol/Simon-Dice/issues"
   },
-  "homepage": "https://github.com/Santi-Rubiol/Simon-Dice#readme"
+  "homepage": "https://github.com/Santi-Rubiol/Simon-Dice#readme",
+  "dependencies": {
+    "boostrap": "^2.0.0"
+  }
 }
