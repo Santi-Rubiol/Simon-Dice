@@ -2,6 +2,30 @@ const $btnRojo = document.querySelector("#rojo");
 const $btnAzul = document.querySelector("#azul");
 const $btnAmarillo = document.querySelector("#amarillo");
 const $btnVerde = document.querySelector("#verde");
+const $btnStart = document.querySelector("#btn-start");
+const $puntaje = document.querySelector("#puntaje");
+
+const luces = [
+  () => {
+    return clickColor($btnRojo, "rgb(255, 119, 119)", "red");
+  },
+  () => {
+    return clickColor($btnAzul, "rgb(141, 141, 252)", "blue");
+  },
+  () => {
+    return clickColor($btnAmarillo, "rgb(254, 254, 141)", "yellow");
+  },
+  () => {
+    return clickColor($btnVerde, "rgb(151, 253, 151)", "green");
+  },
+];
+
+let habilitado = false;
+let listaMemoria = [];
+let listaClickUsuario = [];
+let puntaje = 0;
+let nroTurno = 0;
+let indiceTouch = 0;
 
 function clickColor($componente, colorOriginal, colorBrillante) {
   setTimeout(() => ($componente.style.backgroundColor = colorOriginal), 500);
@@ -11,53 +35,56 @@ function clickColor($componente, colorOriginal, colorBrillante) {
 }
 
 $btnRojo.onclick = function () {
-  const colorPresionado = clickColor($btnRojo, "rgb(255, 119, 119)", "red");
-  console.log(colorPresionado);
+  comprobarIgualdadColor(0);
 };
-
 $btnAzul.onclick = function () {
-  const colorPresionado = clickColor($btnAzul, "rgb(141, 141, 252)", "blue");
-  console.log(colorPresionado);
+  comprobarIgualdadColor(1);
 };
-
 $btnAmarillo.onclick = function () {
-  const colorPresionado = clickColor(
-    $btnAmarillo,
-    "rgb(254, 254, 141)",
-    "yellow"
-  );
-  console.log(colorPresionado);
+  comprobarIgualdadColor(2);
 };
 $btnVerde.onclick = function () {
-  const colorPresionado = clickColor($btnVerde, "rgb(151, 253, 151)", "green");
-  console.log(colorPresionado);
+  comprobarIgualdadColor(3);
 };
 
+function comprobarIgualdadColor(indiceColor) {
+  if (habilitado) {
+    const color = luces[indiceColor]();
+    if (listaMemoria[indiceTouch] === color) {
+      if(indiceTouch < listaMemoria.length-1){
+        indiceTouch++
+        listaClickUsuario.push(color);
+      }else{
+        puntaje++;
+        nuevoTurno();
+      }
+
+      
+
+
+      // SI ACIERTA TODOS LOS COLORES
+      
+      
+      //
+    } else {
+      console.log("PERDISTEEEEEEEEEEEE, tu puntaje es: " + puntaje);
+      puntaje = 0;
+      habilitado = false;
+    }
+  }
+}
+
+//
 function animacionGameOver() {
-  const luces = [
-    () => {
-      return clickColor($btnRojo, "rgb(255, 119, 119)", "red");
-    },
-    () => {
-      return clickColor($btnAzul, "rgb(141, 141, 252)", "blue");
-    },
-    () => {
-      return clickColor($btnAmarillo, "rgb(254, 254, 141)", "yellow");
-    },
-    () => {
-      return clickColor($btnVerde, "rgb(151, 253, 151)", "green");
-    },
-  ];
-  const tiempo_vuelta = 350
-  const cantidad_vueltas = 3
+  const tiempo_vuelta = 350;
+  const cantidad_vueltas = 3;
   for (let j = 0; j < cantidad_vueltas; j++) {
     let tiempo_1 = 0;
     setTimeout(() => {
       for (let i = 0; i < 8; i++) {
         const a = i % luces.length;
         setTimeout(() => {
-          luces[a]()
-          /* console.log(luces[a]() +" tiempo vuelta "+j+": "+ tiempo_vuelta * i); */
+          luces[a]();
         }, tiempo_vuelta * i);
         tiempo_1 = tiempo_1 + tiempo_vuelta * i;
       }
@@ -66,4 +93,43 @@ function animacionGameOver() {
 }
 // animacionGameOver();
 
+function generarColorAleatorio() {
+  const random = Math.trunc(Math.random() * 100) % 4;
+  return luces[random]();
+}
 
+function nuevaPartida() {
+  listaMemoria = [];
+  nroTurno = 0;
+  puntaje = 0;
+  nuevoTurno();
+}
+
+function nuevoTurno() {
+  $puntaje.innerHTML = "Puntaje: " + puntaje;
+  listaClickUsuario = [];
+  nroTurno++;
+  indiceTouch = 0;
+
+  setTimeout(() => {
+    listaMemoria.push(generarColorAleatorio());
+    habilitado = true;
+  }, 800);
+
+  /* if (!pierde) {
+    nuevoTurno(listaMemoria);
+  } */
+}
+
+/* function agregar(lista, color, indice) {
+  lista.push(color);
+   if (lista[indice] === color) {
+    console.log("TA BIEN");
+  } else {
+    alert("GAME OVER");
+  } 
+} */
+
+$btnStart.onclick = function () {
+  nuevaPartida();
+};
