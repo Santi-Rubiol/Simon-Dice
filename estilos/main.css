@@ -2,6 +2,11 @@ body{
     background-color: rgb(198, 249, 249);
 }
 
+h1{
+    font-size: 72px;
+    color: black;
+}
+
 #contenedor-colores{
     background-color: black;
     border-radius: 10px;
@@ -14,6 +19,12 @@ body{
 
 #puntaje{
     font-size: 24px;
+}
+
+.label-info{
+    text-align: center;
+    font-size: 80px;
+    color: black;    
 }
 
 .color{
