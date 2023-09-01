@@ -51,27 +51,26 @@ function comprobarIgualdadColor(indiceColor) {
   if (habilitado) {
     const color = luces[indiceColor]();
     if (listaMemoria[indiceTouch] === color) {
-      if(indiceTouch < listaMemoria.length-1){
-        indiceTouch++
+      if (indiceTouch < listaMemoria.length - 1) {
+        // SI ACIERTA TODOS LOS COLORES
+        indiceTouch++;
         listaClickUsuario.push(color);
-      }else{
+      } else {
         puntaje++;
         nuevoTurno();
       }
-
-      
-
-
-      // SI ACIERTA TODOS LOS COLORES
-      
-      
-      //
     } else {
-      console.log("PERDISTEEEEEEEEEEEE, tu puntaje es: " + puntaje);
-      puntaje = 0;
-      habilitado = false;
+      gameOver()
     }
   }
+}
+
+function gameOver() {
+  
+
+  puntaje = 0;
+  habilitado = false;
+  animacionGameOver()
 }
 
 //
@@ -115,20 +114,7 @@ function nuevoTurno() {
     listaMemoria.push(generarColorAleatorio());
     habilitado = true;
   }, 800);
-
-  /* if (!pierde) {
-    nuevoTurno(listaMemoria);
-  } */
 }
-
-/* function agregar(lista, color, indice) {
-  lista.push(color);
-   if (lista[indice] === color) {
-    console.log("TA BIEN");
-  } else {
-    alert("GAME OVER");
-  } 
-} */
 
 $btnStart.onclick = function () {
   nuevaPartida();

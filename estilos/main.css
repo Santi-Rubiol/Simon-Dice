@@ -1,6 +1,19 @@
+body{
+    background-color: rgb(198, 249, 249);
+}
+
 #contenedor-colores{
     background-color: black;
     border-radius: 10px;
+}
+
+#btn-start{
+    margin: 3px;
+    border-radius: 5px;
+}
+
+#puntaje{
+    font-size: 24px;
 }
 
 .color{
